@@ -1,4 +1,4 @@
-from typing import Union, Tuple, Any, Generic, TypeVar
+from typing import Union, Tuple, Generic, TypeVar
 
 T = TypeVar('T')
 
@@ -51,12 +51,12 @@ class Node(Generic[T]):
         pass
 
     def add(self, x: T) -> 'Node':
-        node = self.find_nearest(x)
-        if x < node.val:
-            node.left = Node(x)
-        elif x > node.val:
-            node.right = Node(x)
-        return node
+        n = self.find_nearest(x)
+        if x < n.val:
+            n.left = Node(x)
+        elif x > n.val:
+            n.right = Node(x)
+        return n
 
     def contains(self, x: T) -> bool:
         return True if self.__find(x) else False
