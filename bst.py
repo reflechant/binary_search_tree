@@ -1,15 +1,17 @@
-from typing import Union, Tuple, Any
+from typing import Union, Tuple, Any, Generic, TypeVar
+
+T = TypeVar('T')
 
 
-class Node:
+class Node(Generic[T]):
     """
     Binary search tree implementation. Duplicates not allowed. Keys are values.
     """
 
-    def __eq__(self, node: 'Node')->bool:
-        return self.val == node.val and self.left is node.left and self.right is node.right
+    def __eq__(self, n: 'Node') -> bool:
+        return self.val == n.val and self.left is n.left and self.right is n.right
 
-    def __init__(self, val, left: 'Node' = None, right: 'Node' = None):
+    def __init__(self, val: T, left: 'Node' = None, right: 'Node' = None):
         self.val = val
         self.left: Node = left
         self.right: Node = right
@@ -17,7 +19,7 @@ class Node:
     def __del__(self) -> 'Node':
         pass
 
-    def __find(self, x, return_nearest=False) -> Union['Node', None]:
+    def __find(self, x: T, return_nearest=False) -> Union['Node', None]:
         cur_node = self
         while True:
             if x < cur_node.val:
@@ -45,10 +47,10 @@ class Node:
     def find_nearest(self, x) -> 'Node':
         return self.__find(x, return_nearest=True)
 
-    def remove(self, x):
+    def remove(self, x: T):
         pass
 
-    def add(self, x) -> 'Node':
+    def add(self, x: T) -> 'Node':
         node = self.find_nearest(x)
         if x < node.val:
             node.left = Node(x)
@@ -56,14 +58,14 @@ class Node:
             node.right = Node(x)
         return node
 
-    def contains(self, x) -> bool:
+    def contains(self, x: T) -> bool:
         return True if self.__find(x) else False
 
     def is_valid_bst(self) -> bool:
         pass
 
-    def tuple(self) -> Tuple[Any, tuple, tuple]:
-        return (self.val, self.left.tuple() if self.left else None, self.right.tuple() if self.right else None)
+    def tuple(self) -> Tuple[T, tuple, tuple]:
+        return self.val, self.left.tuple() if self.left else None, self.right.tuple() if self.right else None
 
     def __iter__(self):
         def f():
@@ -72,6 +74,7 @@ class Node:
             yield self.val
             if self.right:
                 yield from self.right
+
         return f()
 
     def __repr__(self):
