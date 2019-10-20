@@ -1,48 +1,89 @@
+from typing import Union, Tuple, Any
+
+
 class Node:
     """
     Binary search tree implementation. Duplicates not allowed. Keys are values.
     """
 
-    def __init__(self, val, left=None, right=None):
+    def __eq__(self, node: 'Node')->bool:
+        return self.val == node.val and self.left is node.left and self.right is node.right
+
+    def __init__(self, val, left: 'Node' = None, right: 'Node' = None):
         self.val = val
         self.left: Node = left
         self.right: Node = right
 
-    def __del__(self):
+    def __del__(self) -> 'Node':
         pass
 
-    def remove(self, x):
-        pass
-
-    def add(self, x):
+    def __find(self, x, return_nearest=False) -> Union['Node', None]:
         cur_node = self
         while True:
             if x < cur_node.val:
                 if cur_node.left:
                     cur_node = cur_node.left
                 else:
-                    cur_node.left = Node(x)
-                    break
+                    if return_nearest:
+                        return cur_node
+                    else:
+                        return None
             elif x > cur_node.val:
                 if cur_node.right:
                     cur_node = cur_node.right
                 else:
-                    cur_node.right = Node(x)
-                    break
+                    if return_nearest:
+                        return cur_node
+                    else:
+                        return None
             else:
-                break
+                return cur_node
 
-    def contains(self, x):
+    def find(self, x) -> Union['Node', None]:
+        return self.__find(x)
+
+    def find_nearest(self, x) -> 'Node':
+        return self.__find(x, return_nearest=True)
+
+    def remove(self, x):
         pass
 
-    def is_valid_bst(self):
+    def add(self, x) -> 'Node':
+        node = self.find_nearest(x)
+        if x < node.val:
+            node.left = Node(x)
+        elif x > node.val:
+            node.right = Node(x)
+        return node
+
+    def contains(self, x) -> bool:
+        return True if self.__find(x) else False
+
+    def is_valid_bst(self) -> bool:
         pass
+
+    def tuple(self) -> Tuple[Any, tuple, tuple]:
+        return (self.val, self.left.tuple() if self.left else None, self.right.tuple() if self.right else None)
 
     def __iter__(self):
-        pass
-
-    def __next__(self):
-        pass
+        def f():
+            if self.left:
+                yield from self.left
+            yield self.val
+            if self.right:
+                yield from self.right
+        return f()
 
     def __repr__(self):
-        pass
+        return "-".join(str(x) for x in iter(self))
+
+
+if __name__ == "__main__":
+    node = Node(1)
+    print(node)
+    node.add(1)
+    print(node)
+    node.add(2)
+    print(node)
+    node.add(0)
+    print(node)
