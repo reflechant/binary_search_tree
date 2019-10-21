@@ -2,29 +2,18 @@ from bst import Node
 
 
 def test_init():
-    node = Node(0)
-    assert isinstance(node, Node)
-    assert node.val == 0
-    assert node.left is None
-    assert node.right is None
+    root = Node(0)
+    assert isinstance(root, Node)
+    assert root.val == 0
+    assert root.left is None
+    assert root.right is None
 
 
 def test_node_to_tuple():
     assert Node(0).tuple() == (0, None, None)
-    assert Node(1,
-                Node(0)).tuple() == (1,
-                                     (0, None, None),
-                                     None)
-    assert Node(1,
-                None,
-                Node(2)).tuple() == (1,
-                                     None,
-                                     (2, None, None))
-    assert Node(1,
-                Node(0),
-                Node(2)).tuple() == (1,
-                                     (0, None, None),
-                                     (2, None, None))
+    assert Node(1, Node(0)).tuple() == (1, (0, None, None), None)
+    assert Node(1, None, Node(2)).tuple() == (1, None, (2, None, None))
+    assert Node(1, Node(0), Node(2)).tuple() == (1, (0, None, None), (2, None, None))
 
 
 def test_node_repr():
@@ -33,34 +22,64 @@ def test_node_repr():
 
 
 def test_add_duplicate():
-    node = Node(1)
-    node.add(1)
-    assert node == Node(1)
+    root = Node(1)
+    root.add(1)
+    assert root == Node(1)
 
 
 def test_add_left():
-    node = Node(1)
-    node.add(0)
-    assert node.tuple() == (1, (0, None, None), None)
+    root = Node(1)
+    root.add(0)
+    assert root.tuple() == (1, (0, None, None), None)
 
 
 def test_add_right():
-    node = Node(1)
-    node.add(2)
-    assert node.tuple() == Node(1, None, Node(2)).tuple()
+    root = Node(1)
+    root.add(2)
+    assert root.tuple() == Node(1, None, Node(2)).tuple()
 
 
 def test_find():
-    node = Node(1)
-    node.add(2)
-    node.add(-5)
-    assert node.find(1) is node
-    assert node.find(100) is None
-    assert node.find(2) is node.right
-    assert node.find(-5) is node.left
+    root = Node(1)
+    root.add(2)
+    root.add(-5)
+    assert root.find(1) is root
+    assert root.find(100) is None
+    assert root.find(2) is root.right
+    assert root.find(-5) is root.left
 
 
 def test_find_nearest():
-    node = Node(5)
-    assert node.find_nearest(1) is node
-    assert node.find_nearest(100) is node
+    root = Node(5)
+    assert root.find_nearest(1) is root
+    assert root.find_nearest(100) is root
+
+
+def test_find_parent():
+    root = Node(5)
+    assert root.find_parent(5) is None
+    root.add(2)
+    root.add(7)
+    assert root.find_parent(root.left) is root
+    assert root.find_parent(root.right) is root
+    assert root.find_parent(2) is root
+    assert root.find_parent(7) is root
+
+
+def test_remove():
+    root = Node(1, Node(0), Node(2))
+    root.remove(0)
+    assert root.tuple() == (1, None, (2, None, None))
+
+
+def test_valid_bst():
+    root = Node(1, Node(2))
+    assert root.is_valid_bst() == False
+    root = Node(1, Node(0))
+    assert root.is_valid_bst() == True
+    root = Node(1, None, Node(0))
+    assert root.is_valid_bst() == False
+    root = Node(1, None, Node(2))
+    assert root.is_valid_bst() == True
+    root = Node(1, Node(0), Node(2))
+    assert root.is_valid_bst() == True
