@@ -5,8 +5,8 @@ def test_init():
     node = Node(0)
     assert isinstance(node, Node)
     assert node.val == 0
-    assert node.left == None
-    assert node.right == None
+    assert node.left is None
+    assert node.right is None
 
 
 def test_node_to_tuple():
@@ -51,5 +51,16 @@ def test_add_right():
 
 
 def test_find():
-    node = Node(1).add(2).add(3).add(-5).add(7)
-    assert node
+    node = Node(1)
+    node.add(2)
+    node.add(-5)
+    assert node.find(1) is node
+    assert node.find(100) is None
+    assert node.find(2) is node.right
+    assert node.find(-5) is node.left
+
+
+def test_find_nearest():
+    node = Node(5)
+    assert node.find_nearest(1) is node
+    assert node.find_nearest(100) is node

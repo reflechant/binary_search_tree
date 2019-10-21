@@ -16,30 +16,32 @@ class Node(Generic[T]):
         self.left: Node = left
         self.right: Node = right
 
-    def __del__(self) -> 'Node':
-        pass
+    def find_parent(self, n: 'Node') -> 'Node':
+        """
+        Returns parent node of n, considering self is tree root
+        """
+        cur_node = self
+        while True:
+            if cur_node.left is n or cur_node.right is n:
+                return cur_node
+            elif cur_node.left and n.val < cur_node.val:
+                cur_node = cur_node.left
+            elif cur_node.right and n.val > cur_node.val:
+                cur_node = cur_node.right
+            else:
+                raise LookupError
 
     def __find(self, x: T, return_nearest=False) -> Union['Node', None]:
         cur_node = self
         while True:
-            if x < cur_node.val:
-                if cur_node.left:
-                    cur_node = cur_node.left
-                else:
-                    if return_nearest:
-                        return cur_node
-                    else:
-                        return None
-            elif x > cur_node.val:
-                if cur_node.right:
-                    cur_node = cur_node.right
-                else:
-                    if return_nearest:
-                        return cur_node
-                    else:
-                        return None
-            else:
+            if x < cur_node.val and cur_node.left:
+                cur_node = cur_node.left
+            elif x > cur_node.val and cur_node.right:
+                cur_node = cur_node.right
+            elif x == cur_node.val or return_nearest:
                 return cur_node
+            else:
+                return None
 
     def find(self, x) -> Union['Node', None]:
         return self.__find(x)
@@ -47,8 +49,21 @@ class Node(Generic[T]):
     def find_nearest(self, x) -> 'Node':
         return self.__find(x, return_nearest=True)
 
-    def remove(self, x: T):
-        pass
+    def remove_value(self, x: T):
+        n = self.find(x)
+        if n:
+            self.remove_node(n)
+
+    def remove_node(self, n: 'Node'):
+        p = self.find_parent(n)
+        if n.left and n.right:
+            pass
+        elif n.left:
+            pass
+        elif n.right:
+            pass
+        else:
+            pass
 
     def add(self, x: T) -> 'Node':
         n = self.find_nearest(x)
