@@ -74,12 +74,12 @@ def test_remove():
 
 def test_valid_bst():
     root = Node(1, Node(2))
-    assert root.is_valid_bst() == False
+    assert not root.is_valid_bst()
     root = Node(1, Node(0))
-    assert root.is_valid_bst() == True
+    assert root.is_valid_bst()
     root = Node(1, None, Node(0))
-    assert root.is_valid_bst() == False
+    assert not root.is_valid_bst()
     root = Node(1, None, Node(2))
-    assert root.is_valid_bst() == True
+    assert root.is_valid_bst()
     root = Node(1, Node(0), Node(2))
-    assert root.is_valid_bst() == True
+    assert root.is_valid_bst()
