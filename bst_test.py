@@ -51,8 +51,8 @@ def test_find():
 
 def test_find_nearest():
     root = Node(5)
-    assert root.find_nearest(1) is root
-    assert root.find_nearest(100) is root
+    assert root.__find_nearest(1) is root
+    assert root.__find_nearest(100) is root
 
 
 def test_find_parent():
