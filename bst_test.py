@@ -39,6 +39,15 @@ def test_add_right():
     assert root.tuple() == Node(1, None, Node(2)).tuple()
 
 
+def test_contains():
+    root = Node(1)
+    root.add(2)
+    root.add(3)
+    assert root.contains(0) == False
+    assert root.contains(1) == True
+    assert root.contains(3) == True
+
+
 def test_find():
     root = Node(1)
     root.add(2)
@@ -66,9 +75,17 @@ def test_find_parent():
     assert root.find_parent(7) is root
 
 
-def test_remove():
+def test_remove_value():
     root = Node(1, Node(0), Node(2))
     root.remove(0)
+    assert root.tuple() == (1, None, (2, None, None))
+
+
+def test_remove_node():
+    root = Node(1)
+    root.add(2)
+    n = root.add(3)
+    root.remove(n)
     assert root.tuple() == (1, None, (2, None, None))
 
 

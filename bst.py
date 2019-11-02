@@ -111,9 +111,10 @@ class Node(Generic[T]):
         n = self.find_nearest(x)
         if x < n.val:
             n.left = Node(x)
+            return n.left
         elif x > n.val:
             n.right = Node(x)
-        return n
+            return n.right
 
     def contains(self, x: T) -> bool:
         return True if self.__find(x) else False
@@ -143,13 +144,3 @@ class Node(Generic[T]):
     def __repr__(self):
         return "-".join(str(x) for x in iter(self))
 
-
-if __name__ == "__main__":
-    node = Node(1)
-    print(node)
-    node.add(1)
-    print(node)
-    node.add(2)
-    print(node)
-    node.add(0)
-    print(node)
