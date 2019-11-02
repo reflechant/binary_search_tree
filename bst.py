@@ -67,7 +67,7 @@ class Node(Generic[T]):
     def find(self, x) -> Union["Node", None]:
         return self.__find(x)
 
-    def find_nearest(self, x) -> "Node":
+    def __find_nearest(self, x) -> "Node":
         return self.__find(x, no_fail=True)
 
     def find_parent(self, el: Union["Node", T]):
@@ -108,7 +108,7 @@ class Node(Generic[T]):
             self.__remove_value(el)
 
     def add(self, x: T) -> "Node":
-        n = self.find_nearest(x)
+        n = self.__find_nearest(x)
         if x < n.val:
             n.left = Node(x)
             return n.left

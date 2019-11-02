@@ -60,8 +60,8 @@ def test_find():
 
 def test_find_nearest():
     root = Node(5)
-    assert root.find_nearest(1) is root
-    assert root.find_nearest(100) is root
+    assert root.__find_nearest(1) is root
+    assert root.__find_nearest(100) is root
 
 
 def test_find_parent():
@@ -91,12 +91,12 @@ def test_remove_node():
 
 def test_valid_bst():
     root = Node(1, Node(2))
-    assert root.is_valid_bst() == False
+    assert not root.is_valid_bst()
     root = Node(1, Node(0))
-    assert root.is_valid_bst() == True
+    assert root.is_valid_bst()
     root = Node(1, None, Node(0))
-    assert root.is_valid_bst() == False
+    assert not root.is_valid_bst()
     root = Node(1, None, Node(2))
-    assert root.is_valid_bst() == True
+    assert root.is_valid_bst()
     root = Node(1, Node(0), Node(2))
-    assert root.is_valid_bst() == True
+    assert root.is_valid_bst()
