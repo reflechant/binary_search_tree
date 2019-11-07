@@ -52,9 +52,17 @@ def test_find():
 
 
 def test_remove():
-    root = Node(1, Node(0), Node(2))
+    root = Node(1)
+    root.insert(0)
+    root.insert(3)
+    root.insert(2)
+    root.insert(4)
     root.remove(0)
-    assert str(root) == "1 2"
+    assert str(root) == "1 2 3 4"
+    assert root.tuple() == (None, 1, ((None, 2, None), 3, (None, 4, None)))
+    root.remove(2)
+    assert str(root) == "1 3 4"
+    assert root.tuple() == (None, 1, (None, 3, (None, 4, None)))
 
 
 def test_validate():
