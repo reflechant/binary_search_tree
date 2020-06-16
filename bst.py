@@ -34,6 +34,10 @@ class Node(Generic[T]):
             return True
         return False
 
+    def height(self):
+        return 1 + max( self.left.height() if self.left else 0,
+                        self.right.height() if self.right else 0)
+    
     def remove(self, key: T):
         node = self
         parent = None
